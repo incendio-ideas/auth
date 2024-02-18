@@ -1,0 +1,12 @@
+version: "3"
+services:
+  app:
+    build: ./
+    ports:
+      - "50051:50051"
+  e2e_tests:
+    build:
+      context: ./
+      dockerfile: Dockerfile.e2e
+    depends_on:
+      - app
