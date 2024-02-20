@@ -24,6 +24,11 @@ jobs:
           rust-version: 1.76.0
           components: rustfmt clippy
 
+      - name: Install Protoc
+        uses: arduino/setup-protoc@v3
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Lint
         run: cargo fmt --all -- --check && cargo clippy --all-targets --all-features -- -D warnings
 
