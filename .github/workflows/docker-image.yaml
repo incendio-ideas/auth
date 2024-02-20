@@ -2,7 +2,7 @@ name: Build and publish Docker image
 
 on:
   workflow_run:
-    workflows: ["Run unit tests", "Run e2e tests"]
+    workflows: ["Lint and Test"]
     types:
       - completed
     branches:
@@ -34,3 +34,4 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:latest
           platforms: linux/amd64
           push: true
+          github-token: ${{ secrets.GITHUB_TOKEN }}
