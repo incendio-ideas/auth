@@ -2,7 +2,7 @@ name: Build and publish Docker image
 
 on:
   workflow_run:
-    workflows: ["Unit tests", "e2e tests"]
+    workflows: ["Run unit tests", "Run e2e tests"]
     types:
       - completed
     branches:
