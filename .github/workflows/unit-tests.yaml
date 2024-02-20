@@ -1,0 +1,59 @@
+name: Unit tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup rust
+        uses: ATiltedTree/setup-rust@v1
+        with:
+          rust-version: 1.76.0
+          components: rustfmt, clippy
+
+      - name: Lint
+        run: cargo fmt --all -- --check && cargo clippy --all-targets --all-features -- -D warnings
+
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup rust
+        uses: ATiltedTree/setup-rust@v1
+        with:
+          rust-version: 1.76.0
+
+      - name: Lint
+        run: cargo check --all-targets --all-features
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup rust
+        uses: ATiltedTree/setup-rust@v1
+        with:
+          rust-version: 1.76.0
+
+      - name: Test
+        run: cargo test --all-targets --all-features
