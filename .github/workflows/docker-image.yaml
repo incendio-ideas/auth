@@ -23,15 +23,19 @@ jobs:
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GHCR_PAT }}
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
 
       - name: Build Docker image
         uses: docker/build-push-action@v5
         with:
-          tags: ghcr.io/${{ github.repository }}:latest
-          platforms: linux/amd64
+          context: .
           push: true
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          github-token: ${{ secrets.GHCR_PAT }}
