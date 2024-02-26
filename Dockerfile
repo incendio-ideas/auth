@@ -15,5 +15,6 @@ FROM debian:buster-slim as runner
 
 COPY --from=builder /usr/src/app/target/release/auth-server /usr/local/bin/auth-server
 EXPOSE 50051
+ENV DATABASE_URL=postgres://user:password@:db.incendio.svc.cluster.local:5432/auth
 
 CMD ["auth-server"]
